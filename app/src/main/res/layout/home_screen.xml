@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#4e5e5e">
+
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#292f2f">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:background="#292f2f"
+            android:textColor="#ffffff"
+            android:id="@+id/textView"
+            android:gravity="center"
+            android:layout_weight="1"/>
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:id="@+id/linearLayout">
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="90dp"
+            android:src="@drawable/offer1"
+            android:background="#3d4d4c"
+            android:layout_weight="1"
+            android:id="@+id/offerbutton1"
+            android:scaleType="fitCenter"
+            android:adjustViewBounds="true"/>
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="90dp"
+            android:src="@drawable/offer1"
+            android:background="#394445"
+            android:layout_weight="1"
+            android:id="@+id/offerbutton2"
+            android:scaleType="fitCenter"
+            android:adjustViewBounds="true"/>
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="90dp"
+            android:src="@drawable/offer1"
+            android:background="#313d3d"
+            android:layout_weight="1"
+            android:id="@+id/offerbutton3"
+            android:scaleType="fitCenter"
+            android:adjustViewBounds="true"/>
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="90dp"
+            android:src="@drawable/offer1"
+            android:background="#292f2f"
+            android:layout_weight="1"
+            android:id="@+id/offerbutton4"
+            android:scaleType="fitCenter"
+            android:adjustViewBounds="true"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/linearLayout"
+        android:layout_centerHorizontal="true">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="1η Προσφορά"
+            android:textColor="#ffffff"
+            android:layout_weight="1"
+            android:background="#3d4d4c"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2η Προσφορά"
+            android:textColor="#ffffff"
+            android:layout_weight="1"
+            android:background="#394445"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="3η Προσφορά"
+            android:textColor="#ffffff"
+            android:layout_weight="1"
+            android:background="#313d3d"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="4η Προσφορά"
+            android:textColor="#ffffff"
+            android:layout_weight="1"
+            android:background="#292f2f"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:background="#292f2f">
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:src="@drawable/call"
+            android:background="#292f2f"
+            android:layout_weight="1"
+            android:scaleType="fitCenter"
+            android:adjustViewBounds="true"/>
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:src="@drawable/email"
+            android:background="#292f2f"
+            android:layout_weight="1"
+            android:scaleType="fitCenter"
+            android:adjustViewBounds="true"/>
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:src="@drawable/reminder"
+            android:background="#292f2f"
+            android:layout_weight="1"
+            android:scaleType="fitCenter"
+            android:adjustViewBounds="true"/>
+
+
+    </LinearLayout>
+
+
+</RelativeLayout>

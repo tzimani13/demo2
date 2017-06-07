@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">push_not_demo</string>
+    <string name="open">Open</string>
+    <string name="close">Close</string>
+
+    <string-array name="sales">
+        <item>Call Center</item>
+        <item>Giannakari</item>
+        <item>Papadomihelakis</item>
+        <item>Rubel</item>
+
+    </string-array>
+
+</resources>

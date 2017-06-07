@@ -1,0 +1,26 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="demo.push_not_demo">
+
+    xmlns:tools="http://schemas.android.com/tools"
+    <uses-sdk tools:overrideLibrary="com.kunzisoft.switchdatetime,com.prolificinteractive.materialcalendarview"/>
+    <application android:allowBackup="true"
+        android:label="@string/app_name"
+        android:icon="@mipmap/ic_launcher"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+
+        <activity android:name=".HomeScreen">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".test">
+        </activity>
+        <activity android:name=".SetReminder">
+        </activity>
+
+    </application>
+
+</manifest>

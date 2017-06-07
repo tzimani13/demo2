@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+        <item
+            android:id="@+id/Sing"
+            android:icon="@mipmap/ic_person_add_white_24dp"
+            android:title="Sign up">
+        </item>
+
+        <item
+            android:id="@+id/Log"
+            android:icon="@mipmap/ic_person_white_24dp"
+            android:title="Log in">
+        </item>
+
+        <item
+            android:id="@+id/Order"
+            android:icon="@mipmap/ic_format_list_bulleted_white_24dp"
+            android:title="Order">
+        </item>
+
+        <item
+            android:id="@+id/Com"
+            android:icon="@mipmap/ic_call_white_24dp"
+            android:title="Communicate">
+        </item>
+
+
+</menu>
