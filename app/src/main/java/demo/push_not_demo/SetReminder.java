@@ -1,30 +1,25 @@
 package demo.push_not_demo;
 
 
-import android.app.NotificationManager;
+import android.content.Context;
 import android.graphics.PorterDuff;
-import android.icu.util.GregorianCalendar;
-import android.media.RingtoneManager;
-import android.net.Uri;
-import android.os.Build;
+import android.icu.util.Calendar;
 import android.os.Bundle;
-import android.support.v4.app.NotificationCompat;
-import android.support.v4.app.TaskStackBuilder;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.app.AlarmManager;
-import android.app.Notification;
 import android.app.PendingIntent;
-import android.content.Context;
 import android.content.Intent;
 import android.os.SystemClock;
+import android.widget.EditText;
 
 
 import com.kunzisoft.switchdatetime.SwitchDateTimeDialogFragment;
 
-import static android.support.v4.app.NotificationCompat.VISIBILITY_PUBLIC;
+import java.util.GregorianCalendar;
+import java.util.HashMap;
 
 
 public class SetReminder extends AppCompatActivity {
@@ -32,20 +27,24 @@ public class SetReminder extends AppCompatActivity {
 
     private SwitchDateTimeDialogFragment dateTimeFragment;
     Button b1,b2,b3;
+    EditText editText;
+    public static int id;
+    public static HashMap<Integer,String> hashMap;
     private static final String TAG_DATETIME_FRAGMENT = "TAG_DATETIME_FRAGMENT";
-    NotificationManager notificationManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.set_reminder);
+        id=0;
+        hashMap= new HashMap<Integer, String>();
         b1=(Button) findViewById(R.id.set_date_time);
         b2=(Button) findViewById(R.id.cancel);
         b3=(Button) findViewById(R.id.save);
         b1.setOnTouchListener(touch);
         b2.setOnTouchListener(touch);
         b3.setOnTouchListener(touch);
-
+        editText=(EditText) findViewById(R.id.reminder_edit);
     }
 
     View.OnTouchListener touch= new View.OnTouchListener() {
@@ -76,6 +75,7 @@ public class SetReminder extends AppCompatActivity {
                     if (event.getAction()==MotionEvent.ACTION_DOWN){
                         v.getBackground().setColorFilter(0x77000000, PorterDuff.Mode.SRC_ATOP);
                         v.invalidate();
+                        cancelalarm();
                     }
                     else if (event.getAction()== MotionEvent.ACTION_UP){
                         v.getBackground().clearColorFilter();
@@ -88,51 +88,33 @@ public class SetReminder extends AppCompatActivity {
                     if (event.getAction()==MotionEvent.ACTION_DOWN){
                         v.getBackground().setColorFilter(0x77000000, PorterDuff.Mode.SRC_ATOP);
                         v.invalidate();
+
                     }
                     else if (event.getAction()== MotionEvent.ACTION_UP){
                         v.getBackground().clearColorFilter();
                         v.invalidate();
-                        setAlarm(v);
+                        id=id+1;
+                        hashMap.put(id,editText.getText().toString());
+                        alarmservice();
                     }
                 break;
-
             }
-
             return false;
         }
     };
 
-    public void notbuilder() {
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
-        builder.setContentTitle("Test Title");
-        builder.setContentText("Just testing Notifications for now");
-        builder.setTicker("Reminder");
-        builder.setSmallIcon(R.drawable.offer1);
-        builder.setDefaults(Notification.DEFAULT_ALL);
-        builder.setPriority(Notification.PRIORITY_HIGH);
-        builder.setVibrate(new long[] { 50, 1000, 500, 1000, 1000 });
-        Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-        builder.setSound(alarmSound);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            builder.setVisibility(VISIBILITY_PUBLIC);
-        }
-        builder.setAutoCancel(true);
-        Intent intent = new Intent(this,Reminder.class);
-        TaskStackBuilder tstackbuilder = TaskStackBuilder.create(this);
-        tstackbuilder.addParentStack(HomeScreen.class);
-        tstackbuilder.addNextIntent(intent);
-        PendingIntent pendingIntent = tstackbuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
-        builder.setContentIntent(pendingIntent);
-        notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        notificationManager.notify(1,builder.build());
+    public void alarmservice(){
+        Intent intent = new Intent(this,AlertReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this,0,intent,PendingIntent.FLAG_UPDATE_CURRENT);
+        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+        alarmManager.set(alarmManager.ELAPSED_REALTIME_WAKEUP,SystemClock.elapsedRealtime()+ 5000,pendingIntent);
     }
 
-    public void setAlarm(View view){
-        Long alertTime = SystemClock.elapsedRealtime()+ 5000;
-        Intent alertIntent= new Intent(this,AlertReceiver.class);
-        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        alarmManager.set(alarmManager.ELAPSED_REALTIME_WAKEUP,alertTime,PendingIntent.getBroadcast(this,1,alertIntent,PendingIntent.FLAG_UPDATE_CURRENT));
-        notbuilder();
+    public void cancelalarm(){
+        Intent intent = new Intent(this,AlertReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this,0,intent,PendingIntent.FLAG_UPDATE_CURRENT);
+        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+        alarmManager.cancel(pendingIntent);
     }
 
 }

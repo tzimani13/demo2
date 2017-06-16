@@ -6,39 +6,44 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.media.RingtoneManager;
-import android.net.Uri;
-import android.os.Build;
 import android.support.v4.app.NotificationCompat;
+import android.widget.EditText;
 
+import static android.support.v4.app.NotificationCompat.DEFAULT_SOUND;
+import static android.support.v4.app.NotificationCompat.PRIORITY_HIGH;
 import static android.support.v4.app.NotificationCompat.VISIBILITY_PUBLIC;
+import static demo.push_not_demo.SetReminder.id;
 
 
 public class AlertReceiver extends BroadcastReceiver {
+
+    public static int id1;
+
     @Override
     public void onReceive(Context context, Intent intent) {
 
-        createNotification(context,"Times up","5","Alert");
+        id1=id;
+        createNotification(context);
     }
 
-    public void createNotification(Context context,String ttl,String txt,String tck){
-        PendingIntent notifiintent = PendingIntent.getActivity(context,0, new Intent(context,SetReminder.class),0);
+    private void createNotification(Context context) {
+        NotificationCompat.Builder notification = new NotificationCompat.Builder(context)
+            .setAutoCancel(true)
+            .setSmallIcon(R.drawable.offer1)
+            .setContentTitle("Notification Title")
+            .setContentText("Tap to see your reminder")
+            .setPriority(PRIORITY_HIGH)
+            .setVibrate(new long[] { 50, 1000, 500, 1000, 1000 })
+            .setDefaults(DEFAULT_SOUND)
+            .setVisibility(VISIBILITY_PUBLIC);
 
-        NotificationCompat.Builder builder= new NotificationCompat.Builder(context);
-            builder.setSmallIcon(R.drawable.offer1);
-            builder.setContentTitle(ttl);
-            builder.setContentText(txt);
-            builder.setTicker(tck);
-            builder.setDefaults(Notification.DEFAULT_SOUND);
-            builder.setPriority(Notification.PRIORITY_HIGH);
-            builder.setVibrate(new long[] { 50, 1000, 500, 1000, 1000 });
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                builder.setVisibility(VISIBILITY_PUBLIC);
-            }
-            builder.setContentIntent(notifiintent);
-
-
-        NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-        notificationManager.notify(1,builder.build());
+        Intent intent = new Intent(context,Reminder.class);
+        PendingIntent pendingintent = PendingIntent.getActivity(context,1,intent,PendingIntent.FLAG_UPDATE_CURRENT);
+        notification.setContentIntent(pendingintent);
+        NotificationManager nm = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        Notification ntfc =  notification.build();
+        nm.notify(id,ntfc);
     }
+
+
 }
