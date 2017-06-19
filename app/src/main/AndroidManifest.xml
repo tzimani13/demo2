@@ -4,13 +4,13 @@
 
     xmlns:tools="http://schemas.android.com/tools"
     <uses-sdk tools:overrideLibrary="com.kunzisoft.switchdatetime,com.prolificinteractive.materialcalendarview"/>
-
+    <uses-permission android:name="android.permission.READ_CALENDAR" />
+    <uses-permission android:name="android.permission.WRITE_CALENDAR" />
     <application android:allowBackup="true"
         android:label="@string/app_name"
         android:icon="@mipmap/ic_launcher"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <receiver android:name=".AlertReceiver"></receiver>
 
         <activity android:name=".HomeScreen">
             <intent-filter>

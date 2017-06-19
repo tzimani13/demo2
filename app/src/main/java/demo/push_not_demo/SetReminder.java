@@ -1,34 +1,35 @@
 package demo.push_not_demo;
 
 
-import android.content.Context;
 import android.graphics.PorterDuff;
-import android.icu.util.Calendar;
 import android.os.Bundle;
+import android.provider.CalendarContract;
+import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
-import android.app.AlarmManager;
-import android.app.PendingIntent;
 import android.content.Intent;
-import android.os.SystemClock;
 import android.widget.EditText;
-
-
+import android.widget.Toast;
 import com.kunzisoft.switchdatetime.SwitchDateTimeDialogFragment;
 
-import java.util.GregorianCalendar;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
+
 
 
 public class SetReminder extends AppCompatActivity {
 
-
     private SwitchDateTimeDialogFragment dateTimeFragment;
     Button b1,b2,b3;
+    int hours,minutes,year,month,day;
+
     EditText editText;
-    public static int id;
+    public static int counter=0;
     public static HashMap<Integer,String> hashMap;
     private static final String TAG_DATETIME_FRAGMENT = "TAG_DATETIME_FRAGMENT";
 
@@ -36,8 +37,6 @@ public class SetReminder extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.set_reminder);
-        id=0;
-        hashMap= new HashMap<Integer, String>();
         b1=(Button) findViewById(R.id.set_date_time);
         b2=(Button) findViewById(R.id.cancel);
         b3=(Button) findViewById(R.id.save);
@@ -69,19 +68,33 @@ public class SetReminder extends AppCompatActivity {
                             );
                         }
                         dateTimeFragment.show(getSupportFragmentManager(), TAG_DATETIME_FRAGMENT);
+                        dateTimeFragment.setOnButtonClickListener(new SwitchDateTimeDialogFragment.OnButtonClickListener() {
+
+                            @Override
+                            public void onPositiveButtonClick(Date date) {
+                                year=dateTimeFragment.getYear()-7;
+                                month=dateTimeFragment.getMonth()+2;
+                                day=dateTimeFragment.getDay()-4;
+                                hours=dateTimeFragment.getHourOfDay();
+                                minutes=dateTimeFragment.getMinute();
+                            }
+
+                            @Override
+                            public void onNegativeButtonClick(Date date) {
+
+                            }
+                        });
                     }
                 break;
                 case R.id.cancel:
                     if (event.getAction()==MotionEvent.ACTION_DOWN){
                         v.getBackground().setColorFilter(0x77000000, PorterDuff.Mode.SRC_ATOP);
                         v.invalidate();
-                        cancelalarm();
                     }
                     else if (event.getAction()== MotionEvent.ACTION_UP){
                         v.getBackground().clearColorFilter();
                         v.invalidate();
-                        Intent intent = new Intent(SetReminder.this,HomeScreen.class);
-                        startActivity(intent);
+                        finish();
                     }
                 break;
                 case R.id.save:
@@ -93,9 +106,26 @@ public class SetReminder extends AppCompatActivity {
                     else if (event.getAction()== MotionEvent.ACTION_UP){
                         v.getBackground().clearColorFilter();
                         v.invalidate();
-                        id=id+1;
-                        hashMap.put(id,editText.getText().toString());
-                        alarmservice();
+                        if(TextUtils.isEmpty(editText.getText().toString())){
+                            Toast.makeText(SetReminder.this,"Please write a description for your reminder",Toast.LENGTH_LONG).show();
+                            editText.setError("This field can not be blank");
+                        }
+                        else {
+                            Calendar beginTime = Calendar.getInstance();
+                            beginTime.set(year, month, day, hours, minutes);
+                            Calendar endTime = beginTime;
+                            endTime.set(year, month, day, hours, minutes+60*60*1000);
+                            Intent intent = new Intent(Intent.ACTION_INSERT);
+                            intent.setData(CalendarContract.Events.CONTENT_URI);
+                            intent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME,beginTime.getTimeInMillis());
+                            intent.putExtra(CalendarContract.EXTRA_EVENT_END_TIME,endTime.getTimeInMillis());
+                            intent.putExtra(CalendarContract.EXTRA_EVENT_ALL_DAY , false);
+                            intent.putExtra("title", "Reminder");
+                            intent.putExtra("description", editText.getText().toString());
+                            intent.putExtra("date","");
+                            startActivity(intent);
+                            finish();
+                        }
                     }
                 break;
             }
@@ -103,18 +133,5 @@ public class SetReminder extends AppCompatActivity {
         }
     };
 
-    public void alarmservice(){
-        Intent intent = new Intent(this,AlertReceiver.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(this,0,intent,PendingIntent.FLAG_UPDATE_CURRENT);
-        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
-        alarmManager.set(alarmManager.ELAPSED_REALTIME_WAKEUP,SystemClock.elapsedRealtime()+ 5000,pendingIntent);
-    }
-
-    public void cancelalarm(){
-        Intent intent = new Intent(this,AlertReceiver.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(this,0,intent,PendingIntent.FLAG_UPDATE_CURRENT);
-        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
-        alarmManager.cancel(pendingIntent);
-    }
 
 }
