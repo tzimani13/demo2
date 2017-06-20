@@ -21,10 +21,18 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    testCompile 'junit:junit:4.12'
+    compile group: 'com.gimbal.android.v2', name: 'gimbal-sdk', version: '+'
+    compile group: 'com.gimbal.android.v2', name: 'gimbal-slf4j-impl', version: '+'
     compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'com.android.support:design:25.3.1'
     compile 'com.afollestad.material-dialogs:core:0.9.4.4'
     compile 'com.afollestad.material-dialogs:commons:0.9.4.4'
     compile 'com.github.Kunzisoft:Android-SwitchDateTimePicker:1.6'
+    compile 'com.google.android.gms:play-services:11.0.1'
+    compile 'com.google.android.gms:play-services-gcm:11.0.1'
+    compile 'com.google.firebase:firebase-messaging:10.0.1'
+    testCompile 'junit:junit:4.12'
 }
+
+
+apply plugin: 'com.google.gms.google-services'

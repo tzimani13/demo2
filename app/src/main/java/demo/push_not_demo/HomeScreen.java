@@ -1,10 +1,10 @@
 package demo.push_not_demo;
 
-
 import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -13,10 +13,12 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageButton;
-
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.drive.Drive;
 
-public class HomeScreen extends AppCompatActivity{
+public class HomeScreen extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
 
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mToggle;
@@ -27,14 +29,19 @@ public class HomeScreen extends AppCompatActivity{
     String giannakari="tel:6994350881";
     String papadomihelakis="tel:6981700066";
     String rubel="tel:6943573757";
-
+    GoogleApiClient mGoogleApiClient;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.second_layout);
-
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .enableAutoManage(this /* FragmentActivity */,
+                        this /* OnConnectionFailedListener */)
+                .addApi(Drive.API)
+                .addScope(Drive.SCOPE_FILE)
+                .build();
         mToolbar=(Toolbar) findViewById(R.id.toolbar);
         mToolbar.setTitle("Distributor");
         setSupportActionBar(mToolbar);
@@ -43,7 +50,6 @@ public class HomeScreen extends AppCompatActivity{
         mDrawerLayout.addDrawerListener(mToggle);
         mToggle.syncState();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
         b1=(ImageButton)findViewById(R.id.CallButton);
         b2=(ImageButton)findViewById(R.id.EmailButton);
         b3=(ImageButton)findViewById(R.id.ReminderButton);
@@ -68,6 +74,7 @@ public class HomeScreen extends AppCompatActivity{
         }
         return super.onOptionsItemSelected(item);
     }
+
 
 
 
@@ -196,6 +203,9 @@ public class HomeScreen extends AppCompatActivity{
     };
 
 
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 
+    }
 };
 

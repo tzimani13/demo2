@@ -16,6 +16,6 @@ public class Reminder extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.reminder);
         txtv=(TextView) findViewById(R.id.reminder_textView);
-        txtv.setText(hashMap.get(counter));
+        txtv.setText("Result page");
     }
 }
