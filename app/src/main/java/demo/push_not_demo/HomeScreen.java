@@ -17,6 +17,10 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.drive.Drive;
+import com.google.firebase.messaging.FirebaseMessaging;
+import com.google.firebase.messaging.FirebaseMessagingService;
+
+import java.util.HashMap;
 
 public class HomeScreen extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
 
@@ -42,6 +46,8 @@ public class HomeScreen extends AppCompatActivity implements GoogleApiClient.OnC
                 .addApi(Drive.API)
                 .addScope(Drive.SCOPE_FILE)
                 .build();
+        FirebaseMessaging.getInstance().subscribeToTopic("distributor");
+
         mToolbar=(Toolbar) findViewById(R.id.toolbar);
         mToolbar.setTitle("Distributor");
         setSupportActionBar(mToolbar);

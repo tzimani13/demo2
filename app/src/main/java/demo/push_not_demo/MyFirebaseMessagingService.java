@@ -15,8 +15,10 @@ import com.google.firebase.messaging.RemoteMessage;
 import static android.content.ContentValues.TAG;
 
 
+
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
+    private static String cls;
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
         // ...
@@ -28,6 +30,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         // Check if message contains a data payload.
         if (remoteMessage.getData().size() > 0) {
             Log.d(TAG, "Message data payload: " + remoteMessage.getData());
+
         }
 
         // Check if message contains a notification payload.
@@ -37,27 +40,50 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         // Also if you intend on generating your own notifications as a result of a received FCM
         // message, here is where that should be initiated. See sendNotification method below.
+        
         createNotification(remoteMessage.getNotification().getBody());
     }
 
     private void createNotification( String messageBody) {
-        Intent intent = new Intent( this , Reminder.class );
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        PendingIntent resultIntent = PendingIntent.getActivity( this , 0, intent,
-                PendingIntent.FLAG_ONE_SHOT);
+        if (cls=="homescreen"){
+            Intent intent = new Intent( this , HomeScreen.class );
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            PendingIntent resultIntent = PendingIntent.getActivity( this , 0, intent,
+                    PendingIntent.FLAG_ONE_SHOT);
+            Uri notificationSoundURI = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+            NotificationCompat.Builder mNotificationBuilder = new NotificationCompat.Builder( this)
+                    .setSmallIcon(R.mipmap.ic_launcher)
+                    .setContentTitle("Android Tutorial Point FCM Tutorial")
+                    .setContentText(messageBody)
+                    .setAutoCancel( true )
+                    .setSound(notificationSoundURI)
+                    .setContentIntent(resultIntent);
 
-        Uri notificationSoundURI = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-        NotificationCompat.Builder mNotificationBuilder = new NotificationCompat.Builder( this)
-                .setSmallIcon(R.mipmap.ic_launcher)
-                .setContentTitle("Android Tutorial Point FCM Tutorial")
-                .setContentText(messageBody)
-                .setAutoCancel( true )
-                .setSound(notificationSoundURI)
-                .setContentIntent(resultIntent);
+            NotificationManager notificationManager =
+                    (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
-        NotificationManager notificationManager =
-                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+            notificationManager.notify(0, mNotificationBuilder.build());
+        }
+        else {
+            Intent intent = new Intent(this, Reminder.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            PendingIntent resultIntent = PendingIntent.getActivity(this, 0, intent,
+                    PendingIntent.FLAG_ONE_SHOT);
+            Uri notificationSoundURI = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+            NotificationCompat.Builder mNotificationBuilder = new NotificationCompat.Builder( this)
+                    .setSmallIcon(R.mipmap.ic_launcher)
+                    .setContentTitle("Android Tutorial Point FCM Tutorial")
+                    .setContentText(messageBody)
+                    .setAutoCancel( true )
+                    .setSound(notificationSoundURI)
+                    .setContentIntent(resultIntent);
 
-        notificationManager.notify(0, mNotificationBuilder.build());
+            NotificationManager notificationManager =
+                    (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+
+            notificationManager.notify(0, mNotificationBuilder.build());
+        }
+
+
     }
 }
