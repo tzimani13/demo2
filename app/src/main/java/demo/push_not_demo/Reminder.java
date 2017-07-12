@@ -17,6 +17,9 @@ public class Reminder extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.reminder);
         txtv=(TextView) findViewById(R.id.reminder_textView);
+        if (getIntent().getExtras()!=null){
+            url=getIntent().getExtras().getString("message");
+        }
         txtv.setText(url);
     }
 }
