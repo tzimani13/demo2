@@ -83,7 +83,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             notificationManager.notify(0, mNotificationBuilder.build());
         }
         else {
-            Intent intent = new Intent(this, Reminder.class);
+            Intent intent = new Intent(this, webv.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             PendingIntent resultIntent = PendingIntent.getActivity(this, 0, intent,
                     PendingIntent.FLAG_ONE_SHOT);
