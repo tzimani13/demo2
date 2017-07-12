@@ -12,8 +12,11 @@ import android.util.Log;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
-import static android.content.ContentValues.TAG;
+import org.json.JSONException;
+import org.json.JSONObject;
 
+import static android.content.ContentValues.TAG;
+import static demo.push_not_demo.webv.url;
 
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
@@ -30,18 +33,33 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         // Check if message contains a data payload.
         if (remoteMessage.getData().size() > 0) {
             Log.d(TAG, "Message data payload: " + remoteMessage.getData());
+            try {
+            JSONObject dat= new JSONObject(remoteMessage.getData());
+                url= dat.getString("message");
+            }
+            catch (JSONException e) {
+                e.printStackTrace();
+            }
 
         }
 
         // Check if message contains a notification payload.
         if (remoteMessage.getNotification() != null) {
             Log.d(TAG, "Message Notification Body: " + remoteMessage.getNotification().getBody());
+            createNotification(remoteMessage.getNotification().getBody());
+            try {
+                JSONObject dat= new JSONObject(remoteMessage.getData());
+                url= dat.getString("message");
+            }
+            catch (JSONException e) {
+                e.printStackTrace();
+            }
         }
 
         // Also if you intend on generating your own notifications as a result of a received FCM
         // message, here is where that should be initiated. See sendNotification method below.
 
-        createNotification(remoteMessage.getNotification().getBody());
+
     }
 
     private void createNotification( String messageBody) {

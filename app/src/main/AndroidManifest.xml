@@ -30,7 +30,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".SetReminder">
-            
+
         </activity>
         <activity android:name=".Reminder">
             <intent-filter>

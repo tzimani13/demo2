@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
 import static demo.push_not_demo.SetReminder.counter;
 import static demo.push_not_demo.SetReminder.hashMap;
+import static demo.push_not_demo.webv.url;
 
 public class Reminder extends AppCompatActivity{
 
@@ -16,6 +17,6 @@ public class Reminder extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.reminder);
         txtv=(TextView) findViewById(R.id.reminder_textView);
-        txtv.setText("Result page");
+        txtv.setText(url);
     }
 }
