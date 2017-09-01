@@ -32,8 +32,11 @@
         <activity android:name=".SetReminder">
 
         </activity>
-        <activity android:name=".Reminder">
-
+        <activity android:name=".Message">
+            <intent-filter>
+                <action android:name="OPEN_ACTIVITY_message" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
         </activity>
 
         <activity android:name=".webv">

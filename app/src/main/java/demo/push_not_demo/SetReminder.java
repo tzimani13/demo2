@@ -107,7 +107,7 @@ public class SetReminder extends AppCompatActivity {
                         v.getBackground().clearColorFilter();
                         v.invalidate();
                         if(TextUtils.isEmpty(editText.getText().toString())){
-                            Toast.makeText(SetReminder.this,"Please write a description for your reminder",Toast.LENGTH_LONG).show();
+                            Toast.makeText(SetReminder.this,"Please write a description for your message",Toast.LENGTH_LONG).show();
                             editText.setError("This field can not be blank");
                         }
                         else {
@@ -120,7 +120,7 @@ public class SetReminder extends AppCompatActivity {
                             intent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME,beginTime.getTimeInMillis());
                             intent.putExtra(CalendarContract.EXTRA_EVENT_END_TIME,endTime.getTimeInMillis());
                             intent.putExtra(CalendarContract.EXTRA_EVENT_ALL_DAY , false);
-                            intent.putExtra("title", "Reminder");
+                            intent.putExtra("title", "Message");
                             intent.putExtra("description", editText.getText().toString());
                             intent.putExtra("date","");
                             startActivity(intent);

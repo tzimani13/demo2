@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 
 
 public class webv extends AppCompatActivity {
@@ -27,6 +28,7 @@ public class webv extends AppCompatActivity {
         if (getIntent().getExtras()!=null){
             url=getIntent().getExtras().getString("message");
         }
+        webv1.setWebViewClient(new WebViewClient());
         webv1.loadUrl(url);
 
     }

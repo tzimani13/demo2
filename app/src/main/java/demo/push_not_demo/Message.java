@@ -5,18 +5,19 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
-import static demo.push_not_demo.SetReminder.counter;
-import static demo.push_not_demo.SetReminder.hashMap;
+
 import static demo.push_not_demo.webv.url;
 
-public class Reminder extends AppCompatActivity{
+public class Message extends AppCompatActivity{
 
     TextView txtv;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.reminder);
-        txtv=(TextView) findViewById(R.id.reminder_textView);
-        txtv.setText(url);
+        setContentView(R.layout.message);
+        txtv=(TextView) findViewById(R.id.message);
+        if (getIntent().getExtras()!=null){
+            txtv.setText(getIntent().getExtras().getString("message"));
+        }
     }
 }
