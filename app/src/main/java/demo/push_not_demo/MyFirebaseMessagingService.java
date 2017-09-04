@@ -17,11 +17,12 @@ import org.json.JSONObject;
 
 import static android.content.ContentValues.TAG;
 import static demo.push_not_demo.webv.url;
-
+import static demo.push_not_demo.Message.msg;
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     private static String cls;
+
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
         // ...
@@ -36,6 +37,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             try {
             JSONObject dat= new JSONObject(remoteMessage.getData());
                 url= dat.getString("message");
+                msg= dat.getString("activity");
+                cls=dat.getString("message");
             }
             catch (JSONException e) {
                 e.printStackTrace();
@@ -50,6 +53,9 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             try {
                 JSONObject dat= new JSONObject(remoteMessage.getData());
                 url= dat.getString("message");
+
+                JSONObject dat2= new JSONObject(remoteMessage.getData());
+                msg= dat2.getString("activity");
             }
             catch (JSONException e) {
                 e.printStackTrace();
@@ -63,8 +69,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     }
 
     private void createNotification( String messageBody) {
-        if (cls=="homescreen"){
-            Intent intent = new Intent( this , HomeScreen.class );
+        if (msg.equals("1")){
+            Intent intent = new Intent( this , webv.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             PendingIntent resultIntent = PendingIntent.getActivity( this , 0, intent,
                     PendingIntent.FLAG_ONE_SHOT);
@@ -82,8 +88,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
             notificationManager.notify(0, mNotificationBuilder.build());
         }
-        else {
-            Intent intent = new Intent(this, webv.class);
+        else if(msg.equals("2")) {
+            Intent intent = new Intent(this, Message.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             PendingIntent resultIntent = PendingIntent.getActivity(this, 0, intent,
                     PendingIntent.FLAG_ONE_SHOT);
